@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora de Horas Laborales</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 20px;
+      background-color: #f2f6fa;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2a4d69;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    #salario {
+      font-size: 20px;
+      font-weight: bold;
+      color: #005f73;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #023e8a;
+    }
+    .resultado {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #edf6f9;
+      border-left: 6px solid #0077b6;
+      border-radius: 8px;
+    }
+    .item {
+      margin-bottom: 12px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .total {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #007200;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧮 Calculadora de Horas Laborales</h1>
+    
+    <label for="inicio">📅 Fecha y hora de ingreso:</label>
+    <input type="datetime-local" id="inicio" />
+
+    <label for="fin">📅 Fecha y hora de salida:</label>
+    <input type="datetime-local" id="fin" />
+
+    <label for="salario">💰 Salario básico mensual:</label>
+    <input type="number" id="salario" value="2226000" />
+
+    <button onclick="calcular()">Calcular valores</button>
+
+    <div id="resultado" class="resultado"></div>
+  </div>
+
+  <script>
+    const formatearPesos = (valor) => {
+      return "$" + valor.toLocaleString("es-CO");
+    }
+
+    function calcular() {
+      const inicio = new Date(document.getElementById("inicio").value);
+      const fin = new Date(document.getElementById("fin").value);
+      const salario = parseInt(document.getElementById("salario").value);
+      const valorHoraBase = salario / 240;
+
+      if (isNaN(inicio) || isNaN(fin) || isNaN(salario)) {
+        alert("Por favor completa todos los campos.");
+        return;
+      }
+
+      const resultado = document.getElementById("resultado");
+      resultado.innerHTML = "";
+
+      let total = 0;
+      let horaActual = new Date(inicio);
+      let horas = [];
+
+      while (horaActual < fin) {
+        let siguiente = new Date(horaActual);
+        siguiente.setHours(siguiente.getHours() + 1);
+
+        let hora = horaActual.getHours();
+        let tipo = "";
+        let porcentaje = 100;
+
+        const festivo = horaActual.getDay() === 0 || (horaActual.getDate() === 1 && horaActual.getMonth() === 0); // Ejemplo: Año Nuevo
+
+        if (festivo) {
+          if (hora >= 6 && hora < 21) {
+            tipo = "festiva diurna";
+            porcentaje = 175;
+          } else {
+            tipo = "festiva nocturna";
+            porcentaje = 175;
+          }
+        } else {
+          if (hora >= 6 && hora < 14) {
+            tipo = "ordinaria";
+            porcentaje = 100;
+          } else if (hora >= 14 && hora < 22) {
+            tipo = "extra diurna";
+            porcentaje = 125;
+          } else {
+            tipo = "extra nocturna";
+            porcentaje = 175;
+          }
+        }
+
+        horas.push({
+          inicio: horaActual.toTimeString().slice(0,5),
+          fin: siguiente.toTimeString().slice(0,5),
+          tipo,
+          porcentaje,
+          valor: valorHoraBase * (porcentaje / 100)
+        });
+
+        horaActual = siguiente;
+      }
+
+      const agrupadas = {};
+      horas.forEach(h => {
+        const clave = `${h.tipo}|${h.porcentaje}`;
+        if (!agrupadas[clave]) {
+          agrupadas[clave] = {
+            desde: h.inicio,
+            hasta: h.fin,
+            cantidad: 1,
+            tipo: h.tipo,
+            porcentaje: h.porcentaje,
+            subtotal: h.valor
+          };
+        } else {
+          agrupadas[clave].hasta = h.fin;
+          agrupadas[clave].cantidad += 1;
+          agrupadas[clave].subtotal += h.valor;
+        }
+        total += h.valor;
+      });
+
+      for (const key in agrupadas) {
+        const g = agrupadas[key];
+        resultado.innerHTML += `
+          <div class="item">
+            🕓 ${g.cantidad} hora(s) ${g.tipo} de las ${g.desde} a las ${g.hasta}<br>
+            💲 Tarifa: ${formatearPesos(Math.round(valorHoraBase * (g.porcentaje / 100)))} (${g.porcentaje}%) — Subtotal: ${formatearPesos(Math.round(g.subtotal))}
+          </div>
+        `;
+      }
+
+      resultado.innerHTML += `
+        <div class="total">
+          💰 Total a pagar: ${formatearPesos(Math.round(total))}
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
