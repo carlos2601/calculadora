@@ -37,7 +37,7 @@
         label {
             font-weight: bold;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
         .inline-fields {
             display: flex;
@@ -51,7 +51,7 @@
         .inline-fields input {
             flex: 1 1 100%;
             padding: 10px;
-            font-size: 14px;
+            font-size: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
             width: 100%;
@@ -78,7 +78,7 @@
             width: 100%;
             padding: 10px;
             margin-top: 15px;
-            background-color: #ff6600;
+            background-color: #002ae6;
             color: white;
             border: none;
             border-radius: 5px;
@@ -86,7 +86,7 @@
             font-size: 16px;
         }
         .btn:hover {
-            background-color: #e65c00;
+            background-color: #002ae6;
         }
         .btn-borrar {
             background-color: red;
@@ -117,7 +117,7 @@
             <input type="datetime-local" id="fechaSalida">
         </div>
         <label for="salarioBase">Salario Básico:</label>
-        <input type="number" id="salarioBase" placeholder="Salario Básico">
+        <input type="number" id="salarioBase" placeholder="Salario Básico" style="width: 300px; height: 40px; font-size: 18px;" />
         <button type="button" class="btn" onclick="calcularSalario()">Calcular</button>
         <button type="button" class="btn btn-borrar" onclick="resetTable()">Borrar</button>
     </form>
