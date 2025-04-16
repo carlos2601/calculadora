@@ -64,11 +64,13 @@
         th, td {
             border: 1px solid #ddd;
             padding: 10px;
-            text-align: center;
+            text-align:  left;
+            
         }
         th {
             background-color: #f4f4f4;
             font-weight: bold;
+            text-align: center;
         }
         .total {
             font-weight: bold;
@@ -109,12 +111,12 @@
     <form>
         <div class="inline-fields">
             <label for="fechaIngreso">Fecha y Hora de Ingreso:</label>
-            <input type="datetime-local" id="fechaIngreso">
+            <input type="datetime-local" id="fechaIngreso" value="2025-04-15T17:00">
         </div>
         <br>
         <div class="inline-fields">
             <label for="fechaSalida">Fecha y Hora de Salida:</label>
-            <input type="datetime-local" id="fechaSalida">
+            <input type="datetime-local" id="fechaSalida" value="2025-04-16T07:00">
         </div>
         <br>
         <label for="salarioBase">Salario Básico:</label>
@@ -130,14 +132,14 @@
             <th>Horas Trabajadas</th>
             <th>Valor</th>
         </tr>
-        <tr><td>Ordinaria 0%</td><td id="horasOrdinarias">0</td><td id="valorOrdinario">0</td></tr>
-        <tr><td>Nocturna 35%</td><td id="horasNocturnas">0</td><td id="valorNocturno">0</td></tr>
-        <tr><td>Horas Extras Diurnas 25%</td><td id="extrasDiurnas">0</td><td id="valorExtrasDiurnas">0</td></tr>
-        <tr><td>Horas Extras Nocturnas 75%</td><td id="extrasNocturnas">0</td><td id="valorExtrasNocturnas">0</td></tr>
-        <tr><td>Festiva Diurna 100%</td><td id="festivaDiurna">0</td><td id="valorFestivaDiurna">0</td></tr>
-        <tr><td>Festiva Nocturna 110%</td><td id="festivaNocturna">0</td><td id="valorFestivaNocturna">0</td></tr>
-        <tr><td>Hora Extra Festiva 150%</td><td id="horaExtraFestiva">0</td><td id="valorExtraFestiva">0</td></tr>
-        <tr><td class="total">Total</td><td class="total" colspan="2" id="detalleTotal">0</td></tr>
+        <tr><td>Ordinaria 0%</td><td style="text-align: center;" id="horasOrdinarias">0</td><td style="text-align: center;" id="valorOrdinario">0</td></tr>
+        <tr><td>Nocturna 35%</td><td style="text-align: center;" id="horasNocturnas">0</td><td style="text-align: center;" id="valorNocturno">0</td></tr>
+        <tr><td>Horas Extras Diurnas 25%</td><td style="text-align: center;" id="extrasDiurnas">0</td><td style="text-align: center;" id="valorExtrasDiurnas">0</td></tr>
+        <tr><td>Horas Extras Nocturnas 75%</td><td style="text-align: center;" id="extrasNocturnas">0</td><td style="text-align: center;" id="valorExtrasNocturnas">0</td></tr>
+        <tr><td>Festiva Diurna 100%</td><td style="text-align: center;" id="festivaDiurna">0</td><td style="text-align: center;" id="valorFestivaDiurna">0</td></tr>
+        <tr><td>Festiva Nocturna 110%</td><td style="text-align: center;" id="festivaNocturna">0</td><td style="text-align: center;" id="valorFestivaNocturna">0</td></tr>
+        <tr><td>Hora Extra Festiva 150%</td><td style="text-align: center;" id="horaExtraFestiva">0</td><td style="text-align: center;" id="valorExtraFestiva">0</td></tr>
+        <tr><td class="total">Total</td><td style="text-align: center;" class="total" colspan="2" id="detalleTotal">0</td></tr>
     </table>
 
     <script>
